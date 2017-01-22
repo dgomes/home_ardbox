@@ -1,7 +1,7 @@
 #include <relaybox.h>
 
 void callback(uint8_t relay_number, bool value) {
-  DEBUG_PRINTLN(relay_number); Serial.print(","); Serial.println(value?"true":"false");
+  DEBUG_PRINT(relay_number); DEBUG_PRINT(","); DEBUG_PRINTLN(value?"true":"false");
   Serial1.print(relay_number); Serial1.print(","); Serial1.println(value?"true":"false");
 }
 
