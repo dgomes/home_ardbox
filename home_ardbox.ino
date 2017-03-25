@@ -41,6 +41,7 @@ void loop() {
     if(in == '\n') {
       period = atoi(buf.c_str());
       buf = "";
+      break;
     }   
     if(len>8)
       break;
