@@ -15,9 +15,9 @@ void setup() {
     ; // wait for serial port to connect. Needed for Leonardo only
   }  
   Serial.println(F("ARDBOX HOMIE v1"));
+  Serial.println("Hello from ARDBox");
+  Serial.println(F("Usage: #relay,#period_milli\n"));
 #endif
-  Serial1.println("Hello from ARDBox");
-  Serial1.println(F("Usage: #relay,#period_milli\n"));
   ardbox.setup(callback);
 }
 
@@ -26,6 +26,7 @@ void loop() {
   String buf = "";
   int relay_number = 0;
   int period = 0;
+  int cmd = -1;
   size_t len = 0;
 
   while (Serial1.available()) {
@@ -39,7 +40,13 @@ void loop() {
       buf = "";
     }
     if(in == '\n') {
-      period = atoi(buf.c_str());
+      if(strncmp(buf.c_str(), "false", 5)==0) {
+        cmd = 0;
+      } else if(strncmp(buf.c_str(), "true", 4)==0) {
+        cmd = 1;
+      } else {
+        period = atoi(buf.c_str());
+      }
       buf = "";
       break;
     }   
@@ -52,5 +59,11 @@ void loop() {
     ardbox.switchRelay(relay_number, period);
   }
 
+  if (relay_number > 0 && cmd > -1) {
+    if(cmd == 0)
+      ardbox.switchRelay(relay_number, false);
+    else if(cmd == 1)
+      ardbox.switchRelay(relay_number, true);
+  }
 
 }
