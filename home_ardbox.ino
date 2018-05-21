@@ -25,7 +25,7 @@ void loop() {
   ardbox.loop();
   String buf = "";
   int relay_number = 0;
-  int period = 0;
+  unsigned long period = 0;
   int cmd = -1;
   size_t len = 0;
 
@@ -45,7 +45,7 @@ void loop() {
       } else if(strncmp(buf.c_str(), "true", 4)==0) {
         cmd = 1;
       } else {
-        period = atoi(buf.c_str());
+        period = (unsigned long) atol(buf.c_str());
       }
       buf = "";
       break;
